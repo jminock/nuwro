@@ -9,20 +9,20 @@ OS := $(shell uname)
 
 # get version tag using git describe
 
-VERSION := $(shell git describe --tags)
+#VERSION := $(shell git describe --tags)
 
 DEBUG         = 1
 #DEBUGON = -g
 ifeq ($(OS),Darwin)
   # Flags for OSX
-  CXXFLAGS      = `${ROOTSYS}/bin/root-config --cflags` -fPIC -O2 $(DEBUGON) -I src -Wall -Wno-unused-variable -Wno-sign-compare -Wno-unused-function -Wno-unused-but-set-variable -Wreorder -Wmissing-braces $(QTINCLUDEDIRS) -DVERSION=\"$(VERSION)\"
+  CXXFLAGS      = `${ROOTSYS}/bin/root-config --cflags` -fPIC -O2 $(DEBUGON) -I src -Wall -Wno-unused-variable -Wno-sign-compare -Wno-unused-function -Wno-unused-but-set-variable -Wreorder -Wmissing-braces $(QTINCLUDEDIRS) #-DVERSION=\"$(VERSION)\"
 else
   # Flags for others
-  CXXFLAGS      = `${ROOTSYS}/bin/root-config --cflags` -std=c++0x -fPIC -O2 $(DEBUGON) -I src -Wl,--no-as-needed -Wall -Wno-unused-variable -Wno-sign-compare -Wno-unused-function -Wno-unused-but-set-variable -Wreorder -Wmissing-braces $(QTINCLUDEDIRS) -DVERSION=\"$(VERSION)\"
+ CXXFLAGS      = `${ROOTSYS}/bin/root-config --cflags` -fPIC -O2 $(DEBUGON) -I src -Wl,--no-as-needed -Wall -Wno-unused-variable -Wno-sign-compare -Wno-unused-function -Wno-unused-but-set-variable -Wreorder -Wmissing-braces $(QTINCLUDEDIRS) #-DVERSION=\"$(VERSION)\"
 # CXXFLAGS      = `${ROOTSYS}/bin/root-config --cflags` --std=c++17 -fPIC -O2 $(DEBUGON) -I src -Wl,--no-as-needed -Wall -Wno-deprecated-register -Wno-unused-variable -Wno-sign-compare -Wno-unused-function -Wno-unused-but-set-variable -Wno-reorder $(QTINCLUDEDIRS)
  
 endif
-LDFLAGS       = `${ROOTSYS}/bin/root-config --libs` -lPythia6  -lEG -lEGPythia6 -lGeom -lMinuit -lgfortran $(QTLIBS)
+LDFLAGS       = -L/Genie/LHAPDF-6.3.0/install/lib -lLHAPDF -L/Genie/Pythia6Support/v6_424/lib -lPythia6 `${ROOTSYS}/bin/root-config --libs` -lEG -lEGPythia6 -lGeom -lMinuit -lgfortran $(QTLIBS)
 LD            = g++
 CXX           = g++
 CC            = g++
